@@ -1,0 +1,121 @@
+姜毅的Git笔记  资源来源：跟着黑马程序员的Git基础课程学的
+第一页   共五页
+常用命令：
+#     ls  /  ll     查看当前目录
+#     cat         查看文件内容
+#     touch       创建文件
+
+
+Git Gul:  Git提供的图形界面工具
+Git Bash: Git提供的命令行工具
+
+基本配置：
+1.打开 Git Bash
+2.设置用户基本信息
+  #   git config --global user.name”_____”
+  #   git config --global user.email”_____”
+ 查看配置信息：
+ git config --global user.name
+ git config --global user.email
+3.为常用指令配置名：  因指令参数多，每次都敲很麻烦--->使用别名，旨在简化过程
+1.打开用户目录
+2.创建.bashrc文件。若不允许创建点号开头的文件则在当前文件中打开Git Bash
+用指令 touch ~/.bashrc
+3.用笔记本打开文件，输入 alias git-log='git log --all --graph --abbrev-commit'
+alias ll='ls -al'
+
+在库中  touch file01.txt  --->创建文件
+查看文件状态：git status
+
+工作流程：
+仓库（repository）   git commit     暂存区（index）            工作区（workspace）
+修改进入仓库就变 <----------------  已经暂存        git add未暂存unstaged<-修改已有文件
+成一次提交记录                 staged                未跟踪untracked<-新创文件
+                               提交到仓库前的
+缓存区
+git commit -m” ........”
+Git add .
+---------------------------第二页--------------
+git log     ---->查看仓库历史
+对现有文件进行修改：   vi file01.txt ----->利用vi编辑器
+Vi编辑器使用方法：   点insert进行修改     修改完后点Esc然后输入 :wq再按回车退出
+
+查看修改状态：git status
+Git add .----->把所有的修改都加入暂存区
+
+查看提交日志：git log [option]
+[option]     ----all   显示所有分支
+           -----pretty=oneline     将提交的信息显示到一行
+           -----abbrev -commit     使输出的内容更简短
+           -----graph             以图的形式显示
+
+
+版本回退：
+git reset --hard commit ID
+Commit ID为提交记录标识，用git-log查看
+查看删除的记录：  git reflog
+
+若只希望部分文件被git管理：
+创建  .gitignore文件  把不希望管理的文件放在里面
+     Vi  *.a  ------->.a结尾的文件放在里面，为不希望管理的文件
+ 
+
+
+Git branch -vv查看本地分支和云端分支的对应情况
+
+-----------第三页---------
+初始化仓库：   git  init
+
+分支： .
+查看分支：   git branch
+新建分支：   git branch dev01    dev01为分支的名字
+Head指向谁谁就是当前分支
+切换分支：git check out dev01
+创建并切换到： git checkout -b dev01
+
+合并分支（例如：将其他分支合并到master分支）：
+1.切换到mater分支
+2.Git merge dev01  ----->将dev01分支合并到mater
+
+删除分支：
+不能删除当前分支，只能删除其他分支
+1.git branch -d b1  删除分支b1时系统帮忙做各种检查
+2.git branch -D b1  强制删除，不做任何检查 
+强制删除：当要删除的分支上有文件没有merge，需要强制删除
+
+解决冲突：
+提交后在文本中发现冲突（分支冲突）----->直接在文本里删
+分支冲突一般为对文件用分支分开修改却改到了同一行的同一个位置合并时发生冲突 
+-----------第四页-----------
+Git远程仓库的建立:
+互联网网上代码托管服务：  Github  码云  Gitlab
+核实身份：
+配置SSH公钥：
+   # ssh -keygen -t rsa  rsa为非对称密钥算法
+   #不断回车
+         若公钥已经存在将自动覆盖
+   #Gitee设置账户公钥
+       1. 获取公钥：  cat ~/.ssh/id_rsa.pub
+        然后将代码复制贴到gitee上
+3.验证是否配置成功：   ssh -T git@gitee.com
+
+远程仓库添加，查看，推送：
+将本地仓库推到远程仓库 ：选择远程仓库SSH地址复制
+给仓库起名： git remote add origin 地址（刚复制好的） origin为名字------>在本地仓库的.git文件中打开
+查看添加是否成功： git remote---->返回origin则成功
+将本地代码同步到远程仓库 git push origin master-->推分支进去 
+完整命令： git push [-f] [--set-upstream] [远端名称[本地分支名]：[远端分支名]]
+  [-f]:强制覆盖，当本地和云端改同一个东西时只以我这个为准
+
+-------第五页-------
+克隆：  git clone 地址
+抓取： git fetch [remote name] [branch name]
+                origin        分支名：抓取哪一个分支的更新
+抓取---->将仓库的更新都抓取到本地但不会合并
+
+拉取：git pull [remote name] [branch name]
+将远端仓库的修改拉到本地仓库并自动合并，等同于fetch+merge
+
+
+
+
